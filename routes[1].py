@@ -1,17 +1,27 @@
 from app import app
+from app.ReviewForm import ReviewForm
 from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for, request, Flask
-from wtforms.validators import DataRequired
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index.html')
 def index():
+    user = {'username': 'Miguel'}
+    posts = [
+        {
+            'author': {'username': 'John'},
+            'body': 'Beautiful day in Portland!'
+        },
+        {
+            'author': {'username': 'Susan'},
+            'body': 'The Avengers movie was so cool!'
+        }
+    ]
     return render_template('index.html', title='Home', user=user, posts=posts)
 
-
 @app.route("/")
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login.html', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -20,33 +30,48 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
-
-@app.route('/Mcdonalds', methods=['POST'])
+@app.route("/")
+@app.route('/Mcdonalds.html', methods=['GET', 'POST'])
 def Mcdonalds():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text, render_template('Mcdonalds.html'), redirect(url_for('index'))
+    form = ReviewForm()
+    if form.validate_on_submit():
+        flash('review sent from user "{}"'.format(form.text.data))
+        return redirect(url_for('Mcdonalds'))
+    return render_template('Mcdonalds.html', title="Review", form=form)
 
-@app.route('/palms', methods=['POST'])
+
+@app.route("/")
+@app.route('/palms.html', methods=['GET', 'POST'])
 def palms():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text, render_template('palms.html'), redirect(url_for('index'))
+    form = ReviewForm()
+    if form.validate_on_submit():
+        flash('review sent from user "{}"'.format(form.text.data))
+        return redirect(url_for('palms'))
+    return render_template('palms.html', title="Review", form=form)
 
-@app.route('/otts', methods=['POST'])
-def otts():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text, render_template('ott.html'), redirect(url_for('index'))
+@app.route("/")
+@app.route('/ott.html', methods=['GET', 'POST'])
+def ott():
+    form = ReviewForm()
+    if form.validate_on_submit():
+        flash('review sent from user "{}"'.format(form.text.data))
+        return redirect(url_for('ott'))
+    return render_template('ott.html', title="Review", form=form)
 
-@app.route('/stavros', methods=['POST'])
+@app.route("/")
+@app.route('/stavros.html', methods=['GET', 'POST'])
 def stavros():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text, render_template('stavros.html'), redirect(url_for('index'))
+    form = ReviewForm()
+    if form.validate_on_submit():
+        flash('review sent from user "{}"'.format(form.text.data))
+        return redirect(url_for('stavros'))
+    return render_template('stavros.html', title="Review", form=form)
 
-@app.route('/chubbys', methods=['POST'])
+@app.route("/")
+@app.route('/chubbys.html', methods=['GET', 'POST'])
 def chubbys():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text, render_template('chubbys.html'), redirect(url_for('index'))
+    form = ReviewForm()
+    if form.validate_on_submit():
+        flash('review sent from user "{}"'.format(form.text.data))
+        return redirect(url_for('chubbys'))
+    return render_template('chubbys.html', title="Review", form=form)
